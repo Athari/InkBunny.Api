@@ -1,0 +1,23 @@
+<Dictionary
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="CustomDictionary.xsd">
+  <Words>
+    <Recognized>
+      <Word>lorem</Word>
+      <Word>ipsum</Word>
+      <Word>Cs</Word>
+      <Word>Exts</Word>
+    </Recognized>
+    <DiscreteExceptions>
+      <Term>StringWriter</Term>
+    </DiscreteExceptions>
+    <Deprecated>
+      <Term PreferredAlternate="property">prop</Term>
+    </Deprecated>
+  </Words>
+  <Acronyms>
+    <CasingExceptions>
+      <Acronym>Cs</Acronym>
+    </CasingExceptions>
+  </Acronyms>
+</Dictionary>

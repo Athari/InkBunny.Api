@@ -1,0 +1,137 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+
+  <Import Project="Settings.Dirs.props" />
+
+  <!-- Common properties -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <DefineConstants>$(DefineConstants);JETBRAINS_ANNOTATIONS</DefineConstants>
+    <DefineConstants Condition="'$(Configuration)' == 'Debug'">$(DefineConstants);TRACE</DefineConstants>
+    <EnableDefaultItems>false</EnableDefaultItems>
+    <DisableImplicitFrameworkDefines>true</DisableImplicitFrameworkDefines>
+    <!--<GenerateDocumentationFile>true</GenerateDocumentationFile>-->
+  </PropertyGroup>
+
+  <!-- Framework-specific properties -->
+  <PropertyGroup Condition="'$(TargetFramework)' != ''">
+    <TargetFrameworkId>net</TargetFrameworkId>
+    <TargetFrameworkId Condition="$(TargetFramework.StartsWith('netstandard'))">netstandard</TargetFrameworkId>
+    <TargetFrameworkId Condition="$(TargetFramework.StartsWith('netcoreapp'))">netcoreapp</TargetFrameworkId>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFrameworkId)' == 'netstandard'">
+    <DefineConstants>$(DefineConstants);NET_STANDARD</DefineConstants>
+    <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('netstandard', 'NET_STANDARD_').Substring(0, 14))X</DefineConstants>
+    <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('netstandard', 'NET_STANDARD_').Replace('.', ''))</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFrameworkId)' == 'netcoreapp'">
+    <DefineConstants>$(DefineConstants);NET_COREAPP</DefineConstants>
+    <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('netcoreapp', 'NET_COREAPP_').Substring(0, 13))X</DefineConstants>
+    <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('netcoreapp', 'NET_COREAPP_').Replace('.', ''))</DefineConstants>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFrameworkId)' == 'net'">
+    <DefineConstants>$(DefineConstants);NET_FULL;HAS_INSTANCE_DESCRIPTOR</DefineConstants>
+    <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('net', 'NET_').Substring(0, 5))X</DefineConstants>
+    <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('net', 'NET_'))</DefineConstants>
+    <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFrameworkId)' == 'net'">
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+  </ItemGroup>
+
+  <!-- NuGet package properties -->
+  <PropertyGroup>
+    <VersionPrefix>0.1.0</VersionPrefix>
+    <VersionSuffixBase>alpha</VersionSuffixBase>
+    <Authors>Athari</Authors>
+    <Copyright>Public Domain</Copyright>
+    <PackageProjectUrl>https://github.com/Athari/InkBunny.Api</PackageProjectUrl>
+    <PackageLicenseUrl>$(PackageProjectUrl)/blob/master/License.md</PackageLicenseUrl>
+    <PackageIconUrl>$(PackageProjectUrl)/raw/master/Docs/Images/InkBunny256.png</PackageIconUrl>
+    <PackageReleaseNotes>$(PackageProjectUrl)/blob/master/ReadMe.md</PackageReleaseNotes>
+    <RepositoryUrl>$(PackageProjectUrl).git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>cross-platform;inkbunny;api</PackageTags>
+    <!--<ContentTargetFolders>content</ContentTargetFolders>-->
+    <IncludeSymbols>true</IncludeSymbols>
+    <IncludeSource>true</IncludeSource>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(Description)' != ''">
+    <Content
+        Include="$(SolutionDir)*.md"
+        Link="Content/%(Filename)%(Extension)"
+        PackagePath="files/%(Filename)%(Extension)" />
+    <Content
+        Include="$(SolutionDir)Docs/**/*"
+        Exclude="$(SolutionDir)Docs/**/*.NuGet.*"
+        Link="Content/Docs/%(RecursiveDir)%(Filename)%(Extension)"
+        PackagePath="files/Docs/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <!-- Common references depending on declared requirements -->
+  <PropertyGroup>
+    <RequiresTesting Condition="'$(RequiresTesting)' == ''">none</RequiresTesting>
+    <RequiresReflection Condition="'$(RequiresReflection)' == ''">none</RequiresReflection>
+  </PropertyGroup>
+
+  <Choose>
+    <When Condition="'$(RequiresTesting)' == 'true'">
+
+      <ItemGroup>
+        <DotNetCliToolReference Include="dotnet-xunit" Version="2.3.1" />
+        <!--<ProjectReference Include="$(SolutionDir)Alba.CsConsoleFormat.Testing\Alba.CsConsoleFormat.Testing.csproj" />-->
+        <PackageReference Include="FluentAssertions" Version="5.1.2" />
+        <!-- HACK Avoid random stupid conflict between dependencies of FluentAssertions and some other shit that causes build warning -->
+        <PackageReference Include="Microsoft.Extensions.DependencyModel" Version="1.1.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+        <PackageReference Include="Xunit" Version="2.3.1" />
+        <PackageReference Include="Xunit.Runner.VisualStudio" Version="2.3.1" />
+      </ItemGroup>
+
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(RequiresReflection)' == 'true'">
+
+      <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
+        <PackageReference Include="System.Reflection.TypeExtensions" Version="[4.1.0,)" />
+        <PackageReference Include="System.ComponentModel.TypeConverter" Version="[4.1.0,)" />
+      </ItemGroup>
+
+    </When>
+  </Choose>
+
+  <!-- HACK Workaround for MSBuild.Core .NET 3.5 bug -->
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net35'">
+    <FrameworkPathOverride>$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v3.5\Profile\Client</FrameworkPathOverride>
+  </PropertyGroup>
+
+  <!-- Code analysis -->
+  <PropertyGroup>
+    <CodeAnalysisRuleSet Condition="'$(CodeAnalysisLevel)' == 'Library'">$(SolutionDir)Build\Analysis\AlbaLibrary.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet Condition="'$(CodeAnalysisLevel)' == 'Sample'">$(SolutionDir)Build\Analysis\AlbaSample.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CodeAnalysisDictionary Include="$(SolutionDir)Build\Analysis\CustomDictionary.xml" Link="Properties\CustomDictionary.xml" />
+  </ItemGroup>
+
+  <!-- AppVeyor -->
+  <!--<PropertyGroup Condition="'$(APPVEYOR)' == ''">
+    ~1~<AppVeyorArgRepoBranch>master</AppVeyorArgRepoBranch>@1@
+    <AppVeyorArgRepoBranch>feature-1-branch</AppVeyorArgRepoBranch>
+    ~1~<AppVeyorArgRepoTag>v0.8.1</AppVeyorArgRepoTag>@1@
+    <AppVeyorArgPullNumber>101</AppVeyorArgPullNumber>
+    <AppVeyorArgPullRepo>Pull-User/InkBunny.Api-Clone</AppVeyorArgPullRepo>
+    <AppVeyorArgPullBranch>Pull Branch-Name</AppVeyorArgPullBranch>
+  </PropertyGroup>
+  <Import Project="Settings.AppVeyor.Emulate.props" />-->
+
+  <Import Project="Settings.AppVeyor.props" Condition="'$(APPVEYOR)' != ''" />
+
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+
+</Project>
