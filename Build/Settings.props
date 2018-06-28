@@ -29,7 +29,7 @@
     <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('netcoreapp', 'NET_COREAPP_').Replace('.', ''))</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFrameworkId)' == 'net'">
-    <DefineConstants>$(DefineConstants);NET_FULL;HAS_INSTANCE_DESCRIPTOR</DefineConstants>
+    <DefineConstants>$(DefineConstants);NET_FULL</DefineConstants>
     <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('net', 'NET_').Substring(0, 5))X</DefineConstants>
     <DefineConstants>$(DefineConstants);$(TargetFramework.Replace('net', 'NET_'))</DefineConstants>
     <DisableImplicitFrameworkReferences>true</DisableImplicitFrameworkReferences>
@@ -74,6 +74,7 @@
   <PropertyGroup>
     <RequiresTesting Condition="'$(RequiresTesting)' == ''">none</RequiresTesting>
     <RequiresReflection Condition="'$(RequiresReflection)' == ''">none</RequiresReflection>
+    <RequiresTextTransformation Condition="'$(RequiresTextTransformation)' == ''">none</RequiresTextTransformation>
   </PropertyGroup>
 
   <Choose>
@@ -99,6 +100,16 @@
       <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3'">
         <PackageReference Include="System.Reflection.TypeExtensions" Version="[4.1.0,)" />
         <PackageReference Include="System.ComponentModel.TypeConverter" Version="[4.1.0,)" />
+      </ItemGroup>
+
+    </When>
+  </Choose>
+
+  <Choose>
+    <When Condition="'$(RequiresTextTransformation)' == 'true'">
+
+      <ItemGroup>
+        <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
       </ItemGroup>
 
     </When>

@@ -1,0 +1,114 @@
+﻿<#@ template hostspecific="true" debug="true" #>
+<#@ output extension=".g.cs" #>
+<#@ include file="$(SolutionDir)Alba.InkBunny.Api/Framework/Common.ttinclude" #>
+<#
+    WriteHeader();
+#>
+using System;
+using Newtonsoft.Json;
+
+namespace Alba.InkBunny.Api
+{
+    internal partial class SubmissionShortRaw
+    {
+<#  foreach (var isPrimary in IsPrimaryKinds) { #>
+<#   foreach (var prop in PagePropKinds) { #>
+        [JsonProperty("<#=isPrimary.Js#><#=prop.Js#>")]
+        public string <#=isPrimary#>Page<#=prop#> { get; set; }
+
+<#   } #>
+<#   foreach (var size in FileSizeKinds) { #>
+<#    foreach (var prop in FilePropKinds) { #>
+        [JsonProperty("file_<#=isPrimary.Js#><#=prop.Js#>_<#=size.Js#>")]
+        public <#=prop.Type#> <#=isPrimary#>Page<#=size#>Thumbnail<#=prop#> { get; set; }
+
+<#    } #>
+<#   } #>
+<#   foreach (var size in ThumbnailSizeKinds) { #>
+<#    foreach (var isCustom in IsCustomKinds) { #>
+<#     foreach (var prop in ThumbnailPropKinds) { #>
+<#      if (prop.Type == "Uri") { #>
+        [JsonProperty("<#=isPrimary.Js#>thumbnail_<#=prop.Js#>_<#=size.Js#><#=isCustom.Js#>")]
+<#      } else { #>
+        [JsonProperty("<#=isPrimary.Js#>thumb_<#=size.Js#><#=isCustom.Js#>_<#=prop.Js#>")]
+<#      } #>
+        public <#=prop.Type#> <#=isPrimary#>Page<#=size#>Thumbnail<#=isCustom#><#=prop#> { get; set; }
+
+<#     } #>
+<#    } #>
+<#   } #>
+<#  } #>
+        private void CopyToNormal(SubmissionShort other)
+        {
+<#        foreach (var isPrimary in IsPrimaryKinds) { #>
+            other.<#=isPrimary#>Page = new SubmissionPage {
+<#            foreach (var prop in PagePropKinds) { #>
+                <#=prop#> = <#=isPrimary#>Page<#=prop#>,
+<#            } #>
+<#            foreach (var size in FileSizeKinds) { #>
+                <#=size#>File = new SubmissionFile {
+<#                foreach (var prop in FilePropKinds) { #>
+                    <#=prop#> = <#=isPrimary#>Page<#=size#>Thumbnail<#=prop#>,
+<#                } #>
+                },
+<#            } #>
+<#            foreach (var size in ThumbnailSizeKinds) { #>
+                <#=size#>Thumbnail = new SubmissionThumbnail {
+<#               foreach (var isCustom in IsCustomKinds) { #>
+<#                foreach (var prop in ThumbnailPropKinds) { #>
+                    <#=isCustom#><#=prop#> = <#=isPrimary#>Page<#=size#>Thumbnail<#=isCustom#><#=prop#>,
+<#                } #>
+<#               } #>
+                },
+<#            } #>
+            };
+<#        } #>
+        }
+    }
+
+    public partial class SubmissionShort
+    {
+        private void CopyToRaw(SubmissionShortRaw other)
+        {
+<#      foreach (var isPrimary in IsPrimaryKinds) { #>
+<#       foreach (var prop in PagePropKinds) { #>
+            other.<#=isPrimary#>Page<#=prop#> = <#=isPrimary#>Page.<#=prop#>;
+<#       } #>
+<#       foreach (var size in FileSizeKinds) { #>
+<#        foreach (var prop in FilePropKinds) { #>
+            other.<#=isPrimary#>Page<#=size#>Thumbnail<#=prop#> = <#=isPrimary#>Page.<#=size#>File.<#=prop#>;
+<#        } #>
+<#       } #>
+<#       foreach (var size in ThumbnailSizeKinds) { #>
+<#        foreach (var isCustom in IsCustomKinds) { #>
+<#         foreach (var prop in ThumbnailPropKinds) { #>
+            other.<#=isPrimary#>Page<#=size#>Thumbnail<#=isCustom#><#=prop#> = <#=isPrimary#>Page.<#=size#>Thumbnail.<#=isCustom#><#=prop#>;
+<#         } #>
+<#        } #>
+<#       } #>
+<#      } #>
+        }
+    }
+}
+<#+
+    readonly Kind[] IsCustomKinds = { Kind.Name("_noncustom", ""), Kind.Name("", "Custom") };
+    readonly Kind[] IsPrimaryKinds = { Kind.Name("", "Primary"), Kind.Name("latest_", "Latest") };
+    readonly Kind[] ThumbnailSizeKinds = { Kind.Size("Medium"), Kind.Size("Large"), Kind.Size("Huge") };
+    readonly Kind[] FileSizeKinds = { Kind.Size("Preview"), Kind.Size("Screen"), Kind.Size("Full") };
+    readonly Kind[] PagePropKinds = { Kind.Prop("string", "file_name", "FileName"), Kind.Prop("string", "mimetype", "MimeType") };
+    readonly Kind[] FilePropKinds = { Kind.Prop("Uri", "url", "Uri") };
+    readonly Kind[] ThumbnailPropKinds = { Kind.Prop("Uri", "url", "Uri"), Kind.Prop("int", "x", "Width"), Kind.Prop("int", "y", "Height") };
+
+    struct Kind
+    {
+        public string Js { get; private set; }
+        public string Cs { get; private set; }
+        public string Type { get; private set; }
+
+        public static Kind Name(string js, string cs) => new Kind { Js = js, Cs = cs };
+        public static Kind Size(string cs) => new Kind { Js = cs.ToLower(), Cs = cs };
+        public static Kind Prop(string type, string js, string cs) => new Kind { Type = type, Js = js, Cs = cs };
+
+        public override string ToString() => Cs;
+    }
+#>
