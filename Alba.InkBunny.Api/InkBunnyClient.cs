@@ -195,6 +195,21 @@ namespace Alba.InkBunny.Api
             return response.WatchedUsers;
         }
 
+        public async Task<IList<KeywordSuggestion>> GetKeywordAutocompleteAsync(string keyword,
+            Rating rating = Rating.General, bool underscoreSpaces = false)
+        {
+            var request = new KeywordAutocompleteRequest {
+                Keyword = keyword,
+                Rating = rating,
+                UnderscoreSpaces = underscoreSpaces,
+            };
+            var response = await RequestAsync<KeywordAutocompleteResponse>("search_autosuggest", new KeyValueCollection(request) {
+                ["sid"] = Session.SessionId,
+            });
+            response.EnsureSuccess();
+            return response.Suggestions;
+        }
+
         private async Task<TResponse> RequestAsync<TResponse>(string apiName, KeyValueCollection queryArguments, TResponse response = null)
             where TResponse : BaseResponse
         {
