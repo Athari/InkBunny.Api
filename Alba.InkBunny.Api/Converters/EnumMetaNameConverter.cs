@@ -15,9 +15,9 @@ namespace Alba.InkBunny.Api.Converters
 
         static EnumMetaNameConverter()
         {
-            var items = typeof(T).GetFields().Where(f => f.FieldType.IsEnum).Select(f => new {
-                value = (T)Enum.ToObject(typeof(T), f.GetRawConstantValue()),
-                name = ((EnumMetaAttribute)f.GetCustomAttribute(typeof(EnumMetaAttribute))).JsonName,
+            var items = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static).Select(f => new {
+                value = (T)f.GetValue(null),
+                name = f.GetCustomAttribute<EnumMetaAttribute>().JsonName,
             });
             foreach (var item in items) {
                 ValueToName.Add(item.value, item.name);

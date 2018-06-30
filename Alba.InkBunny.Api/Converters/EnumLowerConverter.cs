@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api.Converters
 {
-    public class EnumLowerConverter<T> : JsonConverter<T>
+    internal class EnumLowerConverter<T> : JsonConverter<T>
         where T : Enum
     {
         public override void WriteJson(JsonWriter writer, T value, JsonSerializer serializer)
