@@ -242,52 +242,52 @@ namespace Alba.InkBunny.Api
     {
         private void CopyToRaw(SubmissionRaw other)
         {
-            other.PrimaryPageFileName = PrimaryPage?.FileName ?? default;
-            other.PrimaryPageMimeType = PrimaryPage?.MimeType ?? default;
-            other.PrimaryPagePreviewFileUri = PrimaryPage?.PreviewFile?.Uri ?? default;
-            other.PrimaryPageScreenFileUri = PrimaryPage?.ScreenFile?.Uri ?? default;
-            other.PrimaryPageFullFileUri = PrimaryPage?.FullFile?.Uri ?? default;
-            other.PrimaryPageMediumThumbnailUri = PrimaryPage?.MediumThumbnail?.Uri ?? default;
-            other.PrimaryPageMediumThumbnailWidth = PrimaryPage?.MediumThumbnail?.Width ?? default;
-            other.PrimaryPageMediumThumbnailHeight = PrimaryPage?.MediumThumbnail?.Height ?? default;
-            other.PrimaryPageMediumCustomThumbnailUri = PrimaryPage?.MediumCustomThumbnail?.Uri ?? default;
-            other.PrimaryPageMediumCustomThumbnailWidth = PrimaryPage?.MediumCustomThumbnail?.Width ?? default;
-            other.PrimaryPageMediumCustomThumbnailHeight = PrimaryPage?.MediumCustomThumbnail?.Height ?? default;
-            other.PrimaryPageLargeThumbnailUri = PrimaryPage?.LargeThumbnail?.Uri ?? default;
-            other.PrimaryPageLargeThumbnailWidth = PrimaryPage?.LargeThumbnail?.Width ?? default;
-            other.PrimaryPageLargeThumbnailHeight = PrimaryPage?.LargeThumbnail?.Height ?? default;
-            other.PrimaryPageLargeCustomThumbnailUri = PrimaryPage?.LargeCustomThumbnail?.Uri ?? default;
-            other.PrimaryPageLargeCustomThumbnailWidth = PrimaryPage?.LargeCustomThumbnail?.Width ?? default;
-            other.PrimaryPageLargeCustomThumbnailHeight = PrimaryPage?.LargeCustomThumbnail?.Height ?? default;
-            other.PrimaryPageHugeThumbnailUri = PrimaryPage?.HugeThumbnail?.Uri ?? default;
-            other.PrimaryPageHugeThumbnailWidth = PrimaryPage?.HugeThumbnail?.Width ?? default;
-            other.PrimaryPageHugeThumbnailHeight = PrimaryPage?.HugeThumbnail?.Height ?? default;
-            other.PrimaryPageHugeCustomThumbnailUri = PrimaryPage?.HugeCustomThumbnail?.Uri ?? default;
-            other.PrimaryPageHugeCustomThumbnailWidth = PrimaryPage?.HugeCustomThumbnail?.Width ?? default;
-            other.PrimaryPageHugeCustomThumbnailHeight = PrimaryPage?.HugeCustomThumbnail?.Height ?? default;
-            other.LatestPageFileName = LatestPage?.FileName ?? default;
-            other.LatestPageMimeType = LatestPage?.MimeType ?? default;
-            other.LatestPagePreviewFileUri = LatestPage?.PreviewFile?.Uri ?? default;
-            other.LatestPageScreenFileUri = LatestPage?.ScreenFile?.Uri ?? default;
-            other.LatestPageFullFileUri = LatestPage?.FullFile?.Uri ?? default;
-            other.LatestPageMediumThumbnailUri = LatestPage?.MediumThumbnail?.Uri ?? default;
-            other.LatestPageMediumThumbnailWidth = LatestPage?.MediumThumbnail?.Width ?? default;
-            other.LatestPageMediumThumbnailHeight = LatestPage?.MediumThumbnail?.Height ?? default;
-            other.LatestPageMediumCustomThumbnailUri = LatestPage?.MediumCustomThumbnail?.Uri ?? default;
-            other.LatestPageMediumCustomThumbnailWidth = LatestPage?.MediumCustomThumbnail?.Width ?? default;
-            other.LatestPageMediumCustomThumbnailHeight = LatestPage?.MediumCustomThumbnail?.Height ?? default;
-            other.LatestPageLargeThumbnailUri = LatestPage?.LargeThumbnail?.Uri ?? default;
-            other.LatestPageLargeThumbnailWidth = LatestPage?.LargeThumbnail?.Width ?? default;
-            other.LatestPageLargeThumbnailHeight = LatestPage?.LargeThumbnail?.Height ?? default;
-            other.LatestPageLargeCustomThumbnailUri = LatestPage?.LargeCustomThumbnail?.Uri ?? default;
-            other.LatestPageLargeCustomThumbnailWidth = LatestPage?.LargeCustomThumbnail?.Width ?? default;
-            other.LatestPageLargeCustomThumbnailHeight = LatestPage?.LargeCustomThumbnail?.Height ?? default;
-            other.LatestPageHugeThumbnailUri = LatestPage?.HugeThumbnail?.Uri ?? default;
-            other.LatestPageHugeThumbnailWidth = LatestPage?.HugeThumbnail?.Width ?? default;
-            other.LatestPageHugeThumbnailHeight = LatestPage?.HugeThumbnail?.Height ?? default;
-            other.LatestPageHugeCustomThumbnailUri = LatestPage?.HugeCustomThumbnail?.Uri ?? default;
-            other.LatestPageHugeCustomThumbnailWidth = LatestPage?.HugeCustomThumbnail?.Width ?? default;
-            other.LatestPageHugeCustomThumbnailHeight = LatestPage?.HugeCustomThumbnail?.Height ?? default;
+            other.PrimaryPageFileName = PrimaryPage?.FileName;
+            other.PrimaryPageMimeType = PrimaryPage?.MimeType;
+            other.PrimaryPagePreviewFileUri = PrimaryPage?.PreviewFile?.Uri;
+            other.PrimaryPageScreenFileUri = PrimaryPage?.ScreenFile?.Uri;
+            other.PrimaryPageFullFileUri = PrimaryPage?.FullFile?.Uri;
+            other.PrimaryPageMediumThumbnailUri = PrimaryPage?.MediumThumbnail?.Uri;
+            other.PrimaryPageMediumThumbnailWidth = PrimaryPage?.MediumThumbnail?.Width;
+            other.PrimaryPageMediumThumbnailHeight = PrimaryPage?.MediumThumbnail?.Height;
+            other.PrimaryPageMediumCustomThumbnailUri = PrimaryPage?.MediumCustomThumbnail?.Uri;
+            other.PrimaryPageMediumCustomThumbnailWidth = PrimaryPage?.MediumCustomThumbnail?.Width;
+            other.PrimaryPageMediumCustomThumbnailHeight = PrimaryPage?.MediumCustomThumbnail?.Height;
+            other.PrimaryPageLargeThumbnailUri = PrimaryPage?.LargeThumbnail?.Uri;
+            other.PrimaryPageLargeThumbnailWidth = PrimaryPage?.LargeThumbnail?.Width;
+            other.PrimaryPageLargeThumbnailHeight = PrimaryPage?.LargeThumbnail?.Height;
+            other.PrimaryPageLargeCustomThumbnailUri = PrimaryPage?.LargeCustomThumbnail?.Uri;
+            other.PrimaryPageLargeCustomThumbnailWidth = PrimaryPage?.LargeCustomThumbnail?.Width;
+            other.PrimaryPageLargeCustomThumbnailHeight = PrimaryPage?.LargeCustomThumbnail?.Height;
+            other.PrimaryPageHugeThumbnailUri = PrimaryPage?.HugeThumbnail?.Uri;
+            other.PrimaryPageHugeThumbnailWidth = PrimaryPage?.HugeThumbnail?.Width;
+            other.PrimaryPageHugeThumbnailHeight = PrimaryPage?.HugeThumbnail?.Height;
+            other.PrimaryPageHugeCustomThumbnailUri = PrimaryPage?.HugeCustomThumbnail?.Uri;
+            other.PrimaryPageHugeCustomThumbnailWidth = PrimaryPage?.HugeCustomThumbnail?.Width;
+            other.PrimaryPageHugeCustomThumbnailHeight = PrimaryPage?.HugeCustomThumbnail?.Height;
+            other.LatestPageFileName = LatestPage?.FileName;
+            other.LatestPageMimeType = LatestPage?.MimeType;
+            other.LatestPagePreviewFileUri = LatestPage?.PreviewFile?.Uri;
+            other.LatestPageScreenFileUri = LatestPage?.ScreenFile?.Uri;
+            other.LatestPageFullFileUri = LatestPage?.FullFile?.Uri;
+            other.LatestPageMediumThumbnailUri = LatestPage?.MediumThumbnail?.Uri;
+            other.LatestPageMediumThumbnailWidth = LatestPage?.MediumThumbnail?.Width;
+            other.LatestPageMediumThumbnailHeight = LatestPage?.MediumThumbnail?.Height;
+            other.LatestPageMediumCustomThumbnailUri = LatestPage?.MediumCustomThumbnail?.Uri;
+            other.LatestPageMediumCustomThumbnailWidth = LatestPage?.MediumCustomThumbnail?.Width;
+            other.LatestPageMediumCustomThumbnailHeight = LatestPage?.MediumCustomThumbnail?.Height;
+            other.LatestPageLargeThumbnailUri = LatestPage?.LargeThumbnail?.Uri;
+            other.LatestPageLargeThumbnailWidth = LatestPage?.LargeThumbnail?.Width;
+            other.LatestPageLargeThumbnailHeight = LatestPage?.LargeThumbnail?.Height;
+            other.LatestPageLargeCustomThumbnailUri = LatestPage?.LargeCustomThumbnail?.Uri;
+            other.LatestPageLargeCustomThumbnailWidth = LatestPage?.LargeCustomThumbnail?.Width;
+            other.LatestPageLargeCustomThumbnailHeight = LatestPage?.LargeCustomThumbnail?.Height;
+            other.LatestPageHugeThumbnailUri = LatestPage?.HugeThumbnail?.Uri;
+            other.LatestPageHugeThumbnailWidth = LatestPage?.HugeThumbnail?.Width;
+            other.LatestPageHugeThumbnailHeight = LatestPage?.HugeThumbnail?.Height;
+            other.LatestPageHugeCustomThumbnailUri = LatestPage?.HugeCustomThumbnail?.Uri;
+            other.LatestPageHugeCustomThumbnailWidth = LatestPage?.HugeCustomThumbnail?.Width;
+            other.LatestPageHugeCustomThumbnailHeight = LatestPage?.HugeCustomThumbnail?.Height;
         }
     }
 
@@ -297,28 +297,28 @@ namespace Alba.InkBunny.Api
         public Uri PreviewFileUri { get; set; }
 
         [JsonProperty("preview_size_x")]
-        public int PreviewFileWidth { get; set; }
+        public int? PreviewFileWidth { get; set; }
 
         [JsonProperty("preview_size_y")]
-        public int PreviewFileHeight { get; set; }
+        public int? PreviewFileHeight { get; set; }
 
         [JsonProperty("file_url_screen")]
         public Uri ScreenFileUri { get; set; }
 
         [JsonProperty("screen_size_x")]
-        public int ScreenFileWidth { get; set; }
+        public int? ScreenFileWidth { get; set; }
 
         [JsonProperty("screen_size_y")]
-        public int ScreenFileHeight { get; set; }
+        public int? ScreenFileHeight { get; set; }
 
         [JsonProperty("file_url_full")]
         public Uri FullFileUri { get; set; }
 
         [JsonProperty("full_size_x")]
-        public int FullFileWidth { get; set; }
+        public int? FullFileWidth { get; set; }
 
         [JsonProperty("full_size_y")]
-        public int FullFileHeight { get; set; }
+        public int? FullFileHeight { get; set; }
 
         [JsonProperty("thumbnail_url_medium_noncustom")]
         public Uri MediumThumbnailUri { get; set; }
@@ -428,40 +428,40 @@ namespace Alba.InkBunny.Api
     {
         private void CopyToRaw(SubmissionPageRaw other)
         {
-            other.PreviewFileUri = PreviewFile?.Uri ?? default;
-            other.PreviewFileWidth = PreviewFile?.Width ?? default;
-            other.PreviewFileHeight = PreviewFile?.Height ?? default;
-            other.ScreenFileUri = ScreenFile?.Uri ?? default;
-            other.ScreenFileWidth = ScreenFile?.Width ?? default;
-            other.ScreenFileHeight = ScreenFile?.Height ?? default;
-            other.FullFileUri = FullFile?.Uri ?? default;
-            other.FullFileWidth = FullFile?.Width ?? default;
-            other.FullFileHeight = FullFile?.Height ?? default;
-            other.MediumThumbnailUri = MediumThumbnail?.Uri ?? default;
-            other.MediumThumbnailWidth = MediumThumbnail?.Width ?? default;
-            other.MediumThumbnailHeight = MediumThumbnail?.Height ?? default;
-            other.MediumCustomThumbnailUri = MediumCustomThumbnail?.Uri ?? default;
-            other.MediumCustomThumbnailWidth = MediumCustomThumbnail?.Width ?? default;
-            other.MediumCustomThumbnailHeight = MediumCustomThumbnail?.Height ?? default;
-            other.LargeThumbnailUri = LargeThumbnail?.Uri ?? default;
-            other.LargeThumbnailWidth = LargeThumbnail?.Width ?? default;
-            other.LargeThumbnailHeight = LargeThumbnail?.Height ?? default;
-            other.LargeCustomThumbnailUri = LargeCustomThumbnail?.Uri ?? default;
-            other.LargeCustomThumbnailWidth = LargeCustomThumbnail?.Width ?? default;
-            other.LargeCustomThumbnailHeight = LargeCustomThumbnail?.Height ?? default;
-            other.HugeThumbnailUri = HugeThumbnail?.Uri ?? default;
-            other.HugeThumbnailWidth = HugeThumbnail?.Width ?? default;
-            other.HugeThumbnailHeight = HugeThumbnail?.Height ?? default;
-            other.HugeCustomThumbnailUri = HugeCustomThumbnail?.Uri ?? default;
-            other.HugeCustomThumbnailWidth = HugeCustomThumbnail?.Width ?? default;
-            other.HugeCustomThumbnailHeight = HugeCustomThumbnail?.Height ?? default;
+            other.PreviewFileUri = PreviewFile?.Uri;
+            other.PreviewFileWidth = PreviewFile?.Width;
+            other.PreviewFileHeight = PreviewFile?.Height;
+            other.ScreenFileUri = ScreenFile?.Uri;
+            other.ScreenFileWidth = ScreenFile?.Width;
+            other.ScreenFileHeight = ScreenFile?.Height;
+            other.FullFileUri = FullFile?.Uri;
+            other.FullFileWidth = FullFile?.Width;
+            other.FullFileHeight = FullFile?.Height;
+            other.MediumThumbnailUri = MediumThumbnail?.Uri;
+            other.MediumThumbnailWidth = MediumThumbnail?.Width;
+            other.MediumThumbnailHeight = MediumThumbnail?.Height;
+            other.MediumCustomThumbnailUri = MediumCustomThumbnail?.Uri;
+            other.MediumCustomThumbnailWidth = MediumCustomThumbnail?.Width;
+            other.MediumCustomThumbnailHeight = MediumCustomThumbnail?.Height;
+            other.LargeThumbnailUri = LargeThumbnail?.Uri;
+            other.LargeThumbnailWidth = LargeThumbnail?.Width;
+            other.LargeThumbnailHeight = LargeThumbnail?.Height;
+            other.LargeCustomThumbnailUri = LargeCustomThumbnail?.Uri;
+            other.LargeCustomThumbnailWidth = LargeCustomThumbnail?.Width;
+            other.LargeCustomThumbnailHeight = LargeCustomThumbnail?.Height;
+            other.HugeThumbnailUri = HugeThumbnail?.Uri;
+            other.HugeThumbnailWidth = HugeThumbnail?.Width;
+            other.HugeThumbnailHeight = HugeThumbnail?.Height;
+            other.HugeCustomThumbnailUri = HugeCustomThumbnail?.Uri;
+            other.HugeCustomThumbnailWidth = HugeCustomThumbnail?.Width;
+            other.HugeCustomThumbnailHeight = HugeCustomThumbnail?.Height;
         }
     }
 
     internal partial class SubmissionPoolRaw
     {
         [JsonProperty("submission_left_submission_id")]
-        public int PreviousSubmissionId { get; set; }
+        public int? PreviousSubmissionId { get; set; }
 
         [JsonProperty("submission_left_file_name")]
         public string PreviousSubmissionFileName { get; set; }
@@ -521,7 +521,7 @@ namespace Alba.InkBunny.Api
         public int? PreviousSubmissionHugeCustomThumbnailHeight { get; set; }
 
         [JsonProperty("submission_right_submission_id")]
-        public int NextSubmissionId { get; set; }
+        public int? NextSubmissionId { get; set; }
 
         [JsonProperty("submission_right_file_name")]
         public string NextSubmissionFileName { get; set; }
@@ -657,46 +657,46 @@ namespace Alba.InkBunny.Api
     {
         private void CopyToRaw(SubmissionPoolRaw other)
         {
-            other.PreviousSubmissionId = PreviousSubmission?.Id ?? default;
-            other.PreviousSubmissionFileName = PreviousSubmission?.FileName ?? default;
-            other.PreviousSubmissionMediumThumbnailUri = PreviousSubmission?.MediumThumbnail?.Uri ?? default;
-            other.PreviousSubmissionMediumThumbnailWidth = PreviousSubmission?.MediumThumbnail?.Width ?? default;
-            other.PreviousSubmissionMediumThumbnailHeight = PreviousSubmission?.MediumThumbnail?.Height ?? default;
-            other.PreviousSubmissionMediumCustomThumbnailUri = PreviousSubmission?.MediumCustomThumbnail?.Uri ?? default;
-            other.PreviousSubmissionMediumCustomThumbnailWidth = PreviousSubmission?.MediumCustomThumbnail?.Width ?? default;
-            other.PreviousSubmissionMediumCustomThumbnailHeight = PreviousSubmission?.MediumCustomThumbnail?.Height ?? default;
-            other.PreviousSubmissionLargeThumbnailUri = PreviousSubmission?.LargeThumbnail?.Uri ?? default;
-            other.PreviousSubmissionLargeThumbnailWidth = PreviousSubmission?.LargeThumbnail?.Width ?? default;
-            other.PreviousSubmissionLargeThumbnailHeight = PreviousSubmission?.LargeThumbnail?.Height ?? default;
-            other.PreviousSubmissionLargeCustomThumbnailUri = PreviousSubmission?.LargeCustomThumbnail?.Uri ?? default;
-            other.PreviousSubmissionLargeCustomThumbnailWidth = PreviousSubmission?.LargeCustomThumbnail?.Width ?? default;
-            other.PreviousSubmissionLargeCustomThumbnailHeight = PreviousSubmission?.LargeCustomThumbnail?.Height ?? default;
-            other.PreviousSubmissionHugeThumbnailUri = PreviousSubmission?.HugeThumbnail?.Uri ?? default;
-            other.PreviousSubmissionHugeThumbnailWidth = PreviousSubmission?.HugeThumbnail?.Width ?? default;
-            other.PreviousSubmissionHugeThumbnailHeight = PreviousSubmission?.HugeThumbnail?.Height ?? default;
-            other.PreviousSubmissionHugeCustomThumbnailUri = PreviousSubmission?.HugeCustomThumbnail?.Uri ?? default;
-            other.PreviousSubmissionHugeCustomThumbnailWidth = PreviousSubmission?.HugeCustomThumbnail?.Width ?? default;
-            other.PreviousSubmissionHugeCustomThumbnailHeight = PreviousSubmission?.HugeCustomThumbnail?.Height ?? default;
-            other.NextSubmissionId = NextSubmission?.Id ?? default;
-            other.NextSubmissionFileName = NextSubmission?.FileName ?? default;
-            other.NextSubmissionMediumThumbnailUri = NextSubmission?.MediumThumbnail?.Uri ?? default;
-            other.NextSubmissionMediumThumbnailWidth = NextSubmission?.MediumThumbnail?.Width ?? default;
-            other.NextSubmissionMediumThumbnailHeight = NextSubmission?.MediumThumbnail?.Height ?? default;
-            other.NextSubmissionMediumCustomThumbnailUri = NextSubmission?.MediumCustomThumbnail?.Uri ?? default;
-            other.NextSubmissionMediumCustomThumbnailWidth = NextSubmission?.MediumCustomThumbnail?.Width ?? default;
-            other.NextSubmissionMediumCustomThumbnailHeight = NextSubmission?.MediumCustomThumbnail?.Height ?? default;
-            other.NextSubmissionLargeThumbnailUri = NextSubmission?.LargeThumbnail?.Uri ?? default;
-            other.NextSubmissionLargeThumbnailWidth = NextSubmission?.LargeThumbnail?.Width ?? default;
-            other.NextSubmissionLargeThumbnailHeight = NextSubmission?.LargeThumbnail?.Height ?? default;
-            other.NextSubmissionLargeCustomThumbnailUri = NextSubmission?.LargeCustomThumbnail?.Uri ?? default;
-            other.NextSubmissionLargeCustomThumbnailWidth = NextSubmission?.LargeCustomThumbnail?.Width ?? default;
-            other.NextSubmissionLargeCustomThumbnailHeight = NextSubmission?.LargeCustomThumbnail?.Height ?? default;
-            other.NextSubmissionHugeThumbnailUri = NextSubmission?.HugeThumbnail?.Uri ?? default;
-            other.NextSubmissionHugeThumbnailWidth = NextSubmission?.HugeThumbnail?.Width ?? default;
-            other.NextSubmissionHugeThumbnailHeight = NextSubmission?.HugeThumbnail?.Height ?? default;
-            other.NextSubmissionHugeCustomThumbnailUri = NextSubmission?.HugeCustomThumbnail?.Uri ?? default;
-            other.NextSubmissionHugeCustomThumbnailWidth = NextSubmission?.HugeCustomThumbnail?.Width ?? default;
-            other.NextSubmissionHugeCustomThumbnailHeight = NextSubmission?.HugeCustomThumbnail?.Height ?? default;
+            other.PreviousSubmissionId = PreviousSubmission?.Id;
+            other.PreviousSubmissionFileName = PreviousSubmission?.FileName;
+            other.PreviousSubmissionMediumThumbnailUri = PreviousSubmission?.MediumThumbnail?.Uri;
+            other.PreviousSubmissionMediumThumbnailWidth = PreviousSubmission?.MediumThumbnail?.Width;
+            other.PreviousSubmissionMediumThumbnailHeight = PreviousSubmission?.MediumThumbnail?.Height;
+            other.PreviousSubmissionMediumCustomThumbnailUri = PreviousSubmission?.MediumCustomThumbnail?.Uri;
+            other.PreviousSubmissionMediumCustomThumbnailWidth = PreviousSubmission?.MediumCustomThumbnail?.Width;
+            other.PreviousSubmissionMediumCustomThumbnailHeight = PreviousSubmission?.MediumCustomThumbnail?.Height;
+            other.PreviousSubmissionLargeThumbnailUri = PreviousSubmission?.LargeThumbnail?.Uri;
+            other.PreviousSubmissionLargeThumbnailWidth = PreviousSubmission?.LargeThumbnail?.Width;
+            other.PreviousSubmissionLargeThumbnailHeight = PreviousSubmission?.LargeThumbnail?.Height;
+            other.PreviousSubmissionLargeCustomThumbnailUri = PreviousSubmission?.LargeCustomThumbnail?.Uri;
+            other.PreviousSubmissionLargeCustomThumbnailWidth = PreviousSubmission?.LargeCustomThumbnail?.Width;
+            other.PreviousSubmissionLargeCustomThumbnailHeight = PreviousSubmission?.LargeCustomThumbnail?.Height;
+            other.PreviousSubmissionHugeThumbnailUri = PreviousSubmission?.HugeThumbnail?.Uri;
+            other.PreviousSubmissionHugeThumbnailWidth = PreviousSubmission?.HugeThumbnail?.Width;
+            other.PreviousSubmissionHugeThumbnailHeight = PreviousSubmission?.HugeThumbnail?.Height;
+            other.PreviousSubmissionHugeCustomThumbnailUri = PreviousSubmission?.HugeCustomThumbnail?.Uri;
+            other.PreviousSubmissionHugeCustomThumbnailWidth = PreviousSubmission?.HugeCustomThumbnail?.Width;
+            other.PreviousSubmissionHugeCustomThumbnailHeight = PreviousSubmission?.HugeCustomThumbnail?.Height;
+            other.NextSubmissionId = NextSubmission?.Id;
+            other.NextSubmissionFileName = NextSubmission?.FileName;
+            other.NextSubmissionMediumThumbnailUri = NextSubmission?.MediumThumbnail?.Uri;
+            other.NextSubmissionMediumThumbnailWidth = NextSubmission?.MediumThumbnail?.Width;
+            other.NextSubmissionMediumThumbnailHeight = NextSubmission?.MediumThumbnail?.Height;
+            other.NextSubmissionMediumCustomThumbnailUri = NextSubmission?.MediumCustomThumbnail?.Uri;
+            other.NextSubmissionMediumCustomThumbnailWidth = NextSubmission?.MediumCustomThumbnail?.Width;
+            other.NextSubmissionMediumCustomThumbnailHeight = NextSubmission?.MediumCustomThumbnail?.Height;
+            other.NextSubmissionLargeThumbnailUri = NextSubmission?.LargeThumbnail?.Uri;
+            other.NextSubmissionLargeThumbnailWidth = NextSubmission?.LargeThumbnail?.Width;
+            other.NextSubmissionLargeThumbnailHeight = NextSubmission?.LargeThumbnail?.Height;
+            other.NextSubmissionLargeCustomThumbnailUri = NextSubmission?.LargeCustomThumbnail?.Uri;
+            other.NextSubmissionLargeCustomThumbnailWidth = NextSubmission?.LargeCustomThumbnail?.Width;
+            other.NextSubmissionLargeCustomThumbnailHeight = NextSubmission?.LargeCustomThumbnail?.Height;
+            other.NextSubmissionHugeThumbnailUri = NextSubmission?.HugeThumbnail?.Uri;
+            other.NextSubmissionHugeThumbnailWidth = NextSubmission?.HugeThumbnail?.Width;
+            other.NextSubmissionHugeThumbnailHeight = NextSubmission?.HugeThumbnail?.Height;
+            other.NextSubmissionHugeCustomThumbnailUri = NextSubmission?.HugeCustomThumbnail?.Uri;
+            other.NextSubmissionHugeCustomThumbnailWidth = NextSubmission?.HugeCustomThumbnail?.Width;
+            other.NextSubmissionHugeCustomThumbnailHeight = NextSubmission?.HugeCustomThumbnail?.Height;
         }
     }
 }

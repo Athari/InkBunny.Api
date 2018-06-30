@@ -17,8 +17,10 @@ namespace Alba.InkBunny.Api.Converters
         public override T ReadJson(JsonReader reader, Type objectType, T existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             switch (reader.TokenType) {
+                case JsonToken.String:
+                    return (T)Enum.ToObject(typeof(T), 1 << int.Parse(reader.Value.ToString()));
                 case JsonToken.Integer:
-                    return (T)Enum.ToObject(typeof(T), reader.Value);
+                    return (T)Enum.ToObject(typeof(T), 1 << (int)reader.Value);
                 default:
                     throw new NotSupportedException();
             }

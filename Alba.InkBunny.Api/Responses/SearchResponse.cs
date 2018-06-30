@@ -34,6 +34,8 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("submissions", ItemConverterType = typeof(RawConverter<Submission, SubmissionRaw>))]
         public IList<Submission> Submissions { get; set; }
+
+        public override string ToString() => $"{GetType().Name}: Count={SubmissionCount} RequestId={RequestId}";
     }
 
     [PublicAPI]
@@ -44,6 +46,8 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("param_value")]
         public string Value { get; set; }
+
+        public override string ToString() => $"{Name} = {Value}";
     }
 
     [PublicAPI]
@@ -62,6 +66,8 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("contributed"), JsonConverter(typeof(BooleanTFConverter))]
         public bool IsSuggested { get; set; }
+
+        public override string ToString() => $"{Name} ({SubmissionCount})";
     }
 
     [PublicAPI]
@@ -104,7 +110,7 @@ namespace Alba.InkBunny.Api
         public string Title { get; set; }
 
         [JsonProperty("pagecount")]
-        public string PageCount { get; set; }
+        public int PageCount { get; set; }
 
         [JsonProperty("rating_id")]
         public RatingLevel RatingLevel { get; set; }
@@ -133,9 +139,6 @@ namespace Alba.InkBunny.Api
         [JsonProperty("stars")]
         public int StarCount { get; set; }
 
-        [JsonProperty("files", ItemConverterType = typeof(RawConverter<SubmissionPage, SubmissionPageRaw>))]
-        public IList<SubmissionPage> Pages { get; set; }
-
         // Extended
 
         [JsonProperty("favorite"), JsonConverter(typeof(BooleanTFConverter))]
@@ -151,7 +154,7 @@ namespace Alba.InkBunny.Api
         public int ViewCount { get; set; }
 
         [JsonProperty("digital_price")]
-        public decimal DigitalPrice { get; set; }
+        public decimal? DigitalPrice { get; set; }
 
         [JsonProperty("user_icon_file_name")]
         public string UserIconFileName { get; set; }
@@ -179,6 +182,12 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("writing_bbcode_parsed")]
         public string WritingHtml { get; set; }
+
+        [JsonProperty("files", ItemConverterType = typeof(RawConverter<SubmissionPage, SubmissionPageRaw>))]
+        public IList<SubmissionPage> Pages { get; set; }
+
+        [JsonProperty("pools", ItemConverterType = typeof(RawConverter<SubmissionPool, SubmissionPoolRaw>))]
+        public IList<SubmissionPool> Pools { get; set; }
 
         [JsonProperty("keywords")]
         public IList<Keyword> Keywords { get; set; }
@@ -229,6 +238,8 @@ namespace Alba.InkBunny.Api
             other.Keywords = Keywords;
             other.Ratings = Ratings;
         }
+
+        public override string ToString() => Title != null ? $"{Title} (#{Id})" : $"#{Id}";
     }
 
     internal sealed partial class SubmissionRaw : SubmissionBase, ICopyable<Submission>
@@ -298,6 +309,8 @@ namespace Alba.InkBunny.Api
             other.Order = Order;
             other.IsDeleted = IsDeleted;
         }
+
+        public override string ToString() => SubmissionId != 0 ? $"#{SubmissionId}/#{Id}" : $"#{Id}";
     }
 
     [PublicAPI]
@@ -353,10 +366,12 @@ namespace Alba.InkBunny.Api
         public Uri Uri { get; set; }
 
         [JsonIgnore]
-        public int Width { get; set; }
+        public int? Width { get; set; }
 
         [JsonIgnore]
-        public int Height { get; set; }
+        public int? Height { get; set; }
+
+        public override string ToString() => Uri?.ToString() ?? "(Empty)";
     }
 
     [PublicAPI]
@@ -370,6 +385,8 @@ namespace Alba.InkBunny.Api
 
         [JsonIgnore]
         public int? Height { get; set; }
+
+        public override string ToString() => Uri?.ToString() ?? "(Empty)";
     }
 
     [PublicAPI]
@@ -386,6 +403,8 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("description")]
         public string Description { get; set; }
+
+        public override string ToString() => Name;
     }
 
     [PublicAPI]
@@ -413,6 +432,8 @@ namespace Alba.InkBunny.Api
             other.Description = Description;
             other.SubmissionCount = SubmissionCount;
         }
+
+        public override string ToString() => $"{Name} (#{Id}) ({SubmissionCount})";
     }
 
     [PublicAPI]
@@ -445,7 +466,7 @@ namespace Alba.InkBunny.Api
     public sealed class SubmissionPoolSubmission : IThumbnailHolder
     {
         [JsonIgnore]
-        public int Id { get; set; }
+        public int? Id { get; set; }
 
         [JsonIgnore]
         public string FileName { get; set; }
@@ -467,6 +488,8 @@ namespace Alba.InkBunny.Api
 
         [JsonIgnore]
         public SubmissionThumbnail HugeCustomThumbnail { get; set; }
+
+        public override string ToString() => Id != null ? $"#{Id} - {FileName}" : "(Empty)";
     }
 
     [PublicAPI]
@@ -483,15 +506,19 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("price_owner_discount")]
         public decimal PriceOwnerDiscount { get; set; }
+
+        public override string ToString() => $"{SizeName} - ${Price}";
     }
 
     [PublicAPI]
     public sealed class UserLink
     {
         [JsonProperty("user_id")]
-        public int UserId { get; set; }
+        public int Id { get; set; }
 
         [JsonProperty("username")]
-        public int UserName { get; set; }
+        public int Name { get; set; }
+
+        public override string ToString() => $"{Name} (#{Id})";
     }
 }

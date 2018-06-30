@@ -1,0 +1,21 @@
+﻿<Project>
+
+  <PropertyGroup>
+    <TargetFramework>net47</TargetFramework>
+    <RootNamespace>Alba.InkBunny.Api.ConsoleTest</RootNamespace>
+    <OutputType>Exe</OutputType>
+    <CodeAnalysisLevel>Sample</CodeAnalysisLevel>
+  </PropertyGroup>
+
+  <Import Project="$(ProjectDir)../Build/Settings.props" />
+
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)Alba.InkBunny.Api/Alba.InkBunny.Api.csproj" />
+    <Reference Include="System.Net.Http" />
+    <Compile Include="**/*.cs" />
+    <Compile Include="$(SolutionDir)Alba.InkBunny.Api/Framework/Annotations.cs" Link="Properties/JetBrainsAnnotations.cs" />
+  </ItemGroup>
+
+  <Import Project="$(ProjectDir)../Build/Settings.targets" />
+
+</Project>

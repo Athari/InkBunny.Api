@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -7,9 +8,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+using Alba.InkBunny.Api.Diagnostics;
 using Alba.InkBunny.Api.Framework;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Alba.InkBunny.Api
 {
@@ -34,8 +37,8 @@ namespace Alba.InkBunny.Api
                 DefaultRequestHeaders = {
                     Referrer = BaseUri,
                     UserAgent = {
-                        new ProductInfoHeaderValue(_userAgentName ?? "", _userAgentVersion ?? ""),
-                        new ProductInfoHeaderValue("through Alba.InkBunny.Api"),
+                        new ProductInfoHeaderValue(_userAgentName ?? "Unknown", _userAgentVersion ?? ""),
+                        new ProductInfoHeaderValue("(through-Alba.InkBunny.Api)"),
                     }
                 }
             };
@@ -98,7 +101,7 @@ namespace Alba.InkBunny.Api
             response.EnsureSuccess();
         }
 
-        public async Task<SearchResponse> SearchSubmissionsAsync(SearchRequest request, int pageIndex)
+        public async Task<SearchResponse> SearchSubmissionsAsync(SearchRequest request, int pageIndex = 1)
         {
             var response = await RequestAsync<SearchResponse>("search", new KeyValueCollection(request) {
                 ["sid"] = Session.SessionId,
@@ -108,7 +111,7 @@ namespace Alba.InkBunny.Api
             return response;
         }
 
-        public async Task<SearchResponse> SearchSubmissionsFirstAsync(SearchRequest request, int pageIndex)
+        public async Task<SearchResponse> SearchSubmissionsFirstAsync(SearchRequest request, int pageIndex = 1)
         {
             var response = await RequestAsync<SearchResponse>("search", new KeyValueCollection(request) {
                 ["sid"] = Session.SessionId,
@@ -138,11 +141,11 @@ namespace Alba.InkBunny.Api
                 Submissions = submissions,
                 IncludeData = includeData,
             };
-            var reponse = await RequestAsync<SubmissionsReponse>("submissions", new KeyValueCollection(request) {
+            var response = await RequestAsync<SubmissionsReponse>("submissions", new KeyValueCollection(request) {
                 ["sid"] = Session.SessionId,
             });
-            reponse.EnsureSuccess();
-            return request.Submissions;
+            response.EnsureSuccess();
+            return response.Submissions;
         }
 
         public async Task GetSubmissionFavingUsersAsync(Submission submission)
@@ -226,21 +229,43 @@ namespace Alba.InkBunny.Api
         private async Task<TResponse> RequestAsync<TResponse>(string apiName, KeyValueCollection queryArguments, TResponse response = null)
             where TResponse : BaseResponse
         {
-            using (var requestContent = new MultipartFormDataContent()) {
+            bool isVerbose = InkBunnyApiTraceSources.Net.Switch.ShouldTrace(TraceEventType.Verbose);
+
+            using (var requestContent = new MultipartFormDataContent())
+            using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api_{apiName}.php")) {
                 foreach (var queryArgument in queryArguments.Where(a => a.Value != null))
                     requestContent.Add(new StringContent(queryArgument.Value), queryArgument.Key);
-                using (var requestMessage = new HttpRequestMessage(HttpMethod.Post, $"/api_{apiName}.php"))
+                if (isVerbose) {
+                    string argumentsString = queryArguments.Where(a => a.Value != null).Select(a => $"{a.Key}={a.Value}").JoinString("\n");
+                    InkBunnyApiTraceSources.Net.TraceEvent(TraceEventType.Verbose, 1,
+                        $"Request {requestMessage.Method} {requestMessage.RequestUri}\n{argumentsString}");
+                }
+                requestMessage.Content = requestContent;
                 using (var responseMessage = await HttpClient.SendAsync(requestMessage, HttpCompletionOption.ResponseHeadersRead)) {
                     responseMessage.EnsureSuccessStatusCode();
-                    using (var contentStream = await responseMessage.Content.ReadAsStreamAsync())
-                    using (var streamReader = new StreamReader(contentStream, Encoding.UTF8))
-                    using (var jsonReader = new JsonTextReader(streamReader)) {
-                        var serializer = new JsonSerializer();
+
+                    if (isVerbose) {
+                        string json = await responseMessage.Content.ReadAsStringAsync();
+                        string formattedJson = JObject.Parse(json).ToString(Formatting.Indented);
+                        InkBunnyApiTraceSources.Net.TraceEvent(TraceEventType.Verbose, 2,
+                            $"Response {requestMessage.Method} {requestMessage.RequestUri}\n{formattedJson}");
                         if (response == null)
-                            response = serializer.Deserialize<TResponse>(jsonReader);
+                            response = JsonConvert.DeserializeObject<TResponse>(json);
                         else
-                            serializer.Populate(jsonReader, response);
+                            JsonConvert.PopulateObject(json, response);
                         return response;
+                    }
+                    else {
+                        using (var contentStream = await responseMessage.Content.ReadAsStreamAsync())
+                        using (var streamReader = new StreamReader(contentStream, Encoding.UTF8))
+                        using (var jsonReader = new JsonTextReader(streamReader)) {
+                            var serializer = new JsonSerializer();
+                            if (response == null)
+                                response = serializer.Deserialize<TResponse>(jsonReader);
+                            else
+                                serializer.Populate(jsonReader, response);
+                            return response;
+                        }
                     }
                 }
             }
@@ -250,5 +275,7 @@ namespace Alba.InkBunny.Api
         {
             HttpClient?.Dispose();
         }
+
+        public override string ToString() => $"{GetType().Name}: {Session}";
     }
 }

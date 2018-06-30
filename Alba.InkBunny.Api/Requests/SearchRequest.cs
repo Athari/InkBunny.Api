@@ -26,7 +26,7 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("no_submissions"), JsonConverter(typeof(BooleanYesNoConverter))]
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public bool IncludeNoSubmissions => IncludeData.Has(SearchIncludeData.SubmissionIds) && !IncludeData.Has(SearchIncludeData.Submissions);
+        public bool IncludeNoSubmissions => !IncludeData.Has(SearchIncludeData.SubmissionIds) && !IncludeData.Has(SearchIncludeData.Submissions);
 
         [JsonProperty("field_join_type"), JsonConverter(typeof(EnumLowerConverter<SearchJoin>))]
         [EditorBrowsable(EditorBrowsableState.Advanced)]
@@ -59,7 +59,7 @@ namespace Alba.InkBunny.Api
         [JsonProperty("random"), JsonConverter(typeof(BooleanYesNoConverter))]
         public bool OrderRandom { get; set; }
 
-        [JsonProperty("scraps"), JsonConverter(typeof(EnumMetaNameConverter<SubmisionType>))]
+        [JsonProperty("scraps"), JsonConverter(typeof(EnumMetaNameConverter<SearchGallery>))]
         public SearchGallery Gallery { get; set; } = SearchGallery.Both;
 
         [JsonProperty("type"), JsonConverter(typeof(EnumIntegerMultFlagConverter<SubmisionType?>))]
@@ -74,7 +74,7 @@ namespace Alba.InkBunny.Api
         [JsonProperty("dayslimit")]
         public int? LastDaysLimit { get; set; }
 
-        [JsonProperty("unread_submissions")]
+        [JsonProperty("unread_submissions"), JsonConverter(typeof(BooleanYesNoConverter))]
         public bool UnreadSubmissions { get; set; }
 
         [JsonIgnore]

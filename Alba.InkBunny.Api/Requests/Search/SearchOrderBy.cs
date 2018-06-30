@@ -14,19 +14,19 @@ namespace Alba.InkBunny.Api
         UnreadTime,
         [EnumMeta(JsonName = "unread_datetime_reverse")]
         UnreadTimeAscending,
-        [EnumMeta(JsonName = "views")]
-        FavoriteTime,
-        [EnumMeta(JsonName = "total_print_sales")]
-        Views,
-        [EnumMeta(JsonName = "total_digital_sales")]
-        PrintSaleCount,
-        [EnumMeta(JsonName = "total_sales")]
-        DigitalSaleCount,
-        [EnumMeta(JsonName = "username")]
-        SaleCount,
         [EnumMeta(JsonName = "fav_datetime")]
-        StarCount,
+        FavoriteTime,
+        [EnumMeta(JsonName = "views")]
+        Views,
+        [EnumMeta(JsonName = "total_print_sales")]
+        PrintSaleCount,
+        [EnumMeta(JsonName = "total_digital_sales")]
+        DigitalSaleCount,
+        [EnumMeta(JsonName = "total_sales")]
+        SaleCount,
         [EnumMeta(JsonName = "fav_stars")]
+        StarCount,
+        [EnumMeta(JsonName = "username")]
         UserName,
         [EnumMeta(JsonName = "pool_order")]
         PoolOrder,

@@ -17,11 +17,11 @@ namespace Alba.InkBunny.Api.Converters
         {
             var items = typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static).Select(f => new {
                 value = (T)f.GetValue(null),
-                name = f.GetCustomAttribute<EnumMetaAttribute>().JsonName,
+                meta = f.GetCustomAttribute<EnumMetaAttribute>(),
             });
-            foreach (var item in items) {
-                ValueToName.Add(item.value, item.name);
-                NameToValue.Add(item.name, item.value);
+            foreach (var item in items.Where(i => i.meta != null)) {
+                ValueToName.Add(item.value, item.meta.JsonName);
+                NameToValue.Add(item.meta.JsonName, item.value);
             }
         }
 

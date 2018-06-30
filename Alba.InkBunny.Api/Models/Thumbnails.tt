@@ -72,17 +72,17 @@ namespace Alba.InkBunny.Api
         {
 <#       foreach (var isPrimary in IsPrimaryKinds) { #>
 <#        foreach (var prop in PagePropKinds) { #>
-            other.<#=isPrimary#>Page<#=prop#> = <#=isPrimary#>Page?.<#=prop#> ?? default;
+            other.<#=isPrimary#>Page<#=prop#> = <#=isPrimary#>Page?.<#=prop#>;
 <#        } #>
 <#        foreach (var size in FileSizeKinds) { #>
 <#         foreach (var prop in FilePropKinds) { #>
-            other.<#=isPrimary#>Page<#=size#>File<#=prop#> = <#=isPrimary#>Page?.<#=size#>File?.<#=prop#> ?? default;
+            other.<#=isPrimary#>Page<#=size#>File<#=prop#> = <#=isPrimary#>Page?.<#=size#>File?.<#=prop#>;
 <#         } #>
 <#        } #>
 <#        foreach (var size in ThumbnailSizeKinds) { #>
 <#         foreach (var isCustom in IsCustomKinds) { #>
 <#          foreach (var prop in ThumbnailPropKinds) { #>
-            other.<#=isPrimary#>Page<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=isPrimary#>Page?.<#=size#><#=isCustom#>Thumbnail?.<#=prop#> ?? default;
+            other.<#=isPrimary#>Page<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=isPrimary#>Page?.<#=size#><#=isCustom#>Thumbnail?.<#=prop#>;
 <#          } #>
 <#         } #>
 <#        } #>
@@ -143,13 +143,13 @@ namespace Alba.InkBunny.Api
         {
 <#       foreach (var size in FileSizeKinds) { #>
 <#        foreach (var prop in FileExtendedPropKinds) { #>
-            other.<#=size#>File<#=prop#> = <#=size#>File?.<#=prop#> ?? default;
+            other.<#=size#>File<#=prop#> = <#=size#>File?.<#=prop#>;
 <#        } #>
 <#       } #>
 <#       foreach (var size in ThumbnailSizeKinds) { #>
 <#        foreach (var isCustom in IsCustomKinds) { #>
 <#         foreach (var prop in ThumbnailPropKinds) { #>
-            other.<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=size#><#=isCustom#>Thumbnail?.<#=prop#> ?? default;
+            other.<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=size#><#=isCustom#>Thumbnail?.<#=prop#>;
 <#         } #>
 <#        } #>
 <#       } #>
@@ -205,12 +205,12 @@ namespace Alba.InkBunny.Api
         {
 <#       foreach (var side in ThumbnailSideKinds) { #>
 <#        foreach (var prop in PoolSubmissionPropKinds) { #>
-            other.<#=side#>Submission<#=prop#> = <#=side#>Submission?.<#=prop#> ?? default;
+            other.<#=side#>Submission<#=prop#> = <#=side#>Submission?.<#=prop#>;
 <#        } #>
 <#        foreach (var size in ThumbnailSizeKinds) { #>
 <#         foreach (var isCustom in IsCustomKinds) { #>
 <#          foreach (var prop in ThumbnailPropKinds) { #>
-            other.<#=side#>Submission<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=side#>Submission?.<#=size#><#=isCustom#>Thumbnail?.<#=prop#> ?? default;
+            other.<#=side#>Submission<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=side#>Submission?.<#=size#><#=isCustom#>Thumbnail?.<#=prop#>;
 <#          } #>
 <#         } #>
 <#        } #>
@@ -226,9 +226,9 @@ namespace Alba.InkBunny.Api
     readonly Kind[] FileSizeKinds = { Kind.Size("Preview"), Kind.Size("Screen"), Kind.Size("Full") };
     readonly Kind[] PagePropKinds = { Kind.Prop("string", "file_name", "FileName"), Kind.Prop("string", "mimetype", "MimeType") };
     readonly Kind[] FilePropKinds = { Kind.Prop("Uri", "url", "Uri") };
-    readonly Kind[] FileExtendedPropKinds = { Kind.Prop("Uri", "file_url", "Uri"), Kind.Prop("int", "size_x", "Width"), Kind.Prop("int", "size_y", "Height") };
+    readonly Kind[] FileExtendedPropKinds = { Kind.Prop("Uri", "file_url", "Uri"), Kind.Prop("int?", "size_x", "Width"), Kind.Prop("int?", "size_y", "Height") };
     readonly Kind[] ThumbnailPropKinds = { Kind.Prop("Uri", "url", "Uri"), Kind.Prop("int?", "x", "Width"), Kind.Prop("int?", "y", "Height") };
-    readonly Kind[] PoolSubmissionPropKinds = { Kind.Prop("int", "submission_id", "Id"), Kind.Prop("string", "file_name", "FileName") };
+    readonly Kind[] PoolSubmissionPropKinds = { Kind.Prop("int?", "submission_id", "Id"), Kind.Prop("string", "file_name", "FileName") };
 
     struct Kind
     {
