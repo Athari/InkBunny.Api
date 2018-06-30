@@ -158,6 +158,24 @@ namespace Alba.InkBunny.Api
             submission.FavingUsers = response.FavingUsers;
         }
 
+        public async Task DeleteSubmissionAsync(int submissionId)
+        {
+            var request = new BasicSubmissionRequest(submissionId);
+            var response = await RequestAsync<BaseResponse>("delsubmission", new KeyValueCollection(request) {
+                ["sid"] = SessionId,
+            });
+            response.EnsureSuccess();
+        }
+
+        public async Task DeleteSubmissionPageAsync(int submissionPageId)
+        {
+            var request = new BasicSubmissionPageRequest(submissionPageId);
+            var response = await RequestAsync<BaseResponse>("delfile", new KeyValueCollection(request) {
+                ["sid"] = SessionId,
+            });
+            response.EnsureSuccess();
+        }
+
         private async Task<TResponse> RequestAsync<TResponse>(string apiName, KeyValueCollection queryArguments, TResponse response = null)
             where TResponse : BaseResponse
         {
