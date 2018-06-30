@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Alba.InkBunny.Api.Requests
+namespace Alba.InkBunny.Api
 {
     internal sealed class BasicSubmissionRequest
     {

@@ -1,8 +1,8 @@
 ﻿using Newtonsoft.Json;
 
-namespace Alba.InkBunny.Api.Requests
+namespace Alba.InkBunny.Api
 {
-    internal sealed class BasicSubmissionPageRequest
+    internal class BasicSubmissionPageRequest
     {
         [JsonProperty("file_id")]
         public int FileId { get; set; }
