@@ -210,6 +210,19 @@ namespace Alba.InkBunny.Api
             return response.Suggestions;
         }
 
+        public async Task<IList<UserNameSuggestion>> GetUserNameAutocompleteAsync(string userName, UserNameAutocompleteType matchType)
+        {
+            var request = new UserNameAutocompleteRequest {
+                UserName = userName,
+                MatchType = matchType,
+            };
+            var response = await RequestAsync<UserNameAutocompleteResponse>("username_autosuggest", new KeyValueCollection(request) {
+                ["sid"] = Session.SessionId,
+            });
+            response.EnsureSuccess();
+            return response.Suggestions;
+        }
+
         private async Task<TResponse> RequestAsync<TResponse>(string apiName, KeyValueCollection queryArguments, TResponse response = null)
             where TResponse : BaseResponse
         {
