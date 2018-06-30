@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api
 {
-    public sealed class SubmissionsQuery
+    internal sealed class SubmissionsRequest
     {
         [JsonIgnore]
         public IList<Submission> Submissions { get; set; }

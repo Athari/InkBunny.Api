@@ -2,7 +2,7 @@
 
 namespace Alba.InkBunny.Api
 {
-    public sealed class LogoutResponse : BaseResponse
+    internal sealed class LogoutResponse : BaseResponse
     {
         [JsonProperty("logout")]
         public string LogoutMessage { get; set; }

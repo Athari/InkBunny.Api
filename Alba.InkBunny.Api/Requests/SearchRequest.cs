@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api
 {
-    public sealed class SearchQuery
+    public sealed class SearchRequest
     {
         [JsonProperty("rid")]
         [EditorBrowsable(EditorBrowsableState.Never)]

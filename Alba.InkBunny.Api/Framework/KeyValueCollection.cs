@@ -13,13 +13,14 @@ namespace Alba.InkBunny.Api.Framework
         public KeyValueCollection(int capacity) : base(capacity)
         { }
 
-        public KeyValueCollection(IEnumerable<KeyValuePair<string, string>> collection) : base(collection)
-        { }
-
-        public static KeyValueCollection FromJson(object value) =>
-            new KeyValueCollection(JObject.FromObject(value).Properties()
+        public KeyValueCollection(object value)
+        {
+            var props = JObject.FromObject(value).Properties()
                 .Where(p => p.Value != null)
-                .Select(p => new KeyValuePair<string, string>(p.Name, p.Value.ToString())));
+                .Select(p => new KeyValuePair<string, string>(p.Name, p.Value.ToString()));
+            foreach (var prop in props)
+                Add(prop);
+        }
 
         public bool ContainsKey(string key) => this.Any(i => i.Key == key);
 

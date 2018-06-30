@@ -17,7 +17,7 @@ namespace Alba.InkBunny.Api
         All = SubmissionIds | Submissions | Keywords,
     }
 
-    internal static class SearchQueryModeExts
+    internal static class SearchIncludeDataExts
     {
         public static bool Has(this SearchIncludeData @this, SearchIncludeData value) => (@this & value) == value;
     }

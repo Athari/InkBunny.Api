@@ -249,6 +249,9 @@ namespace Alba.InkBunny.Api
         [JsonIgnore]
         public SubmissionPage LatestPage { get; set; }
 
+        [JsonIgnore]
+        public IList<UserLink> FavingUsers { get; set; }
+
         void ICopyable<SubmissionRaw>.CopyTo(SubmissionRaw other)
         {
             CopyToBase(other);
@@ -480,5 +483,15 @@ namespace Alba.InkBunny.Api
 
         [JsonProperty("price_owner_discount")]
         public decimal PriceOwnerDiscount { get; set; }
+    }
+
+    [PublicAPI]
+    public sealed class UserLink
+    {
+        [JsonProperty("user_id")]
+        public int UserId { get; set; }
+
+        [JsonProperty("username")]
+        public int UserName { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api
 {
-    public sealed class LoginResponse : BaseResponse
+    internal sealed class LoginResponse : BaseResponse
     {
         [JsonProperty("user_id")]
         public int UserId { get; set; }
