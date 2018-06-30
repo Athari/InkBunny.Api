@@ -1,8 +1,10 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace Alba.InkBunny.Api
 {
     [Flags]
+    [PublicAPI]
     public enum SearchIncludeData
     {
         None = 0,
@@ -12,6 +14,7 @@ namespace Alba.InkBunny.Api
         Keywords = 1 << 2,
 
         Default = Submissions,
+        All = SubmissionIds | Submissions | Keywords,
     }
 
     internal static class SearchQueryModeExts

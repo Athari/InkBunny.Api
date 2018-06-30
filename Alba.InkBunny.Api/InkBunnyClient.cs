@@ -6,20 +6,23 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Alba.InkBunny.Api.Framework;
+using JetBrains.Annotations;
 using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api
 {
+    [PublicAPI]
     public class InkBunnyClient : IDisposable
     {
         public static readonly Uri BaseUri = new Uri("https://inkbunny.net/");
 
         private string _userAgentName;
         private string _userAgentVersion;
-        private string _sessionId = "";
-        private Rating _rating = Rating.General;
 
         public HttpClient HttpClient { get; }
+        public string SessionId { get; private set; } = "";
+        public int UserId { get; private set; } = -1;
+        public Rating UserRating { get; private set; } = Rating.General;
 
         public InkBunnyClient(HttpClientHandler httpClientHandler = null)
         {
@@ -52,7 +55,9 @@ namespace Alba.InkBunny.Api
                 ["password"] = password,
             });
             login.EnsureSuccess();
-            _sessionId = login.SessionId;
+            SessionId = login.SessionId;
+            UserId = login.UserId;
+            UserRating = login.Rating;
             return login;
         }
 
@@ -60,16 +65,7 @@ namespace Alba.InkBunny.Api
         /// All queries to the API must be sent with a valid Session ID (SID). An SID is returned as a string called “sid” when you successfully log in to the API using the Login script. The SID identifies your session and contains all the properties and settings of the logged in user.<br/>
         /// You should logout if you do not expect to reuse a session. Session IDs typically remain valid for several days after their last use; so if you plan to access the site regularly, you should cache the SID, and only re-login if you receive an invalid SID error (code 2) when attempting to use it. This is preferable to caching login credentials.
         /// </summary>
-        public async Task<LoginResponse> LoginGuestAsync()
-        {
-            var login = await RequestAsync<LoginResponse>("login", new KeyValueCollection(1) {
-                ["username"] = "guest",
-            });
-            login.EnsureSuccess();
-            _sessionId = login.SessionId;
-            _rating = login.Rating;
-            return login;
-        }
+        public Task<LoginResponse> LoginGuestAsync() => LoginAsync("guest", "");
 
         /// <summary>
         /// Log out of a session and destroy the temporary session data associated with the Session ID (sid). 
@@ -77,10 +73,12 @@ namespace Alba.InkBunny.Api
         public async Task<LogoutResponse> LogoutAsync()
         {
             var logout = await RequestAsync<LogoutResponse>("logout", new KeyValueCollection(1) {
-                ["sid"] = _sessionId,
+                ["sid"] = SessionId,
             });
             logout.EnsureSuccess();
-            _sessionId = "";
+            SessionId = "";
+            UserId = -1;
+            UserRating = Rating.General;
             return logout;
         }
 
@@ -90,10 +88,10 @@ namespace Alba.InkBunny.Api
         /// Members can still choose to block their work from Guest users, regardless of the Guests' rating choice, so some work may still not appear for Guests even with all rating options turned on.
         /// </summary>
         /// <param name="rating">Show images with this rating.</param>
-        public async Task<BaseResponse> SetRatingAsync(Rating rating)
+        public async Task<BaseResponse> SetUserRatingAsync(Rating rating)
         {
             var userRating = await RequestAsync<BaseResponse>("userrating", new KeyValueCollection(5) {
-                ["sid"] = _sessionId,
+                ["sid"] = SessionId,
                 ["tag[2]"] = ((rating & Rating.MatureNudity) != 0).ToYesNo(),
                 ["tag[3]"] = ((rating & Rating.MatureViolence) != 0).ToYesNo(),
                 ["tag[4]"] = ((rating & Rating.AdultSex) != 0).ToYesNo(),
@@ -103,11 +101,11 @@ namespace Alba.InkBunny.Api
             return userRating;
         }
 
-        public async Task<SearchResponse> SearchAsync(SearchQuery query, int pageIndex)
+        public async Task<SearchResponse> SearchSubmissionsAsync(SearchQuery query, int pageIndex)
         {
             var arg = KeyValueCollection.FromJson(query);
             arg.AddRange(new KeyValueCollection(2) {
-                ["sid"] = _sessionId,
+                ["sid"] = SessionId,
                 ["page"] = pageIndex.ToStringInv(),
             });
             var search = await RequestAsync<SearchResponse>("search", arg);
@@ -115,11 +113,11 @@ namespace Alba.InkBunny.Api
             return search;
         }
 
-        public async Task<SearchResponse> SearchFirstAsync(SearchQuery query, int pageIndex)
+        public async Task<SearchResponse> SearchSubmissionsFirstAsync(SearchQuery query, int pageIndex)
         {
             var arg = KeyValueCollection.FromJson(query);
             arg.AddRange(new KeyValueCollection(3) {
-                ["sid"] = _sessionId,
+                ["sid"] = SessionId,
                 ["get_rid"] = true.ToYesNo(),
                 ["page"] = pageIndex.ToStringInv(),
             });
@@ -129,17 +127,28 @@ namespace Alba.InkBunny.Api
             return search;
         }
 
-        public async Task<SearchResponse> SearchNextAsync(SearchQuery query, int pageIndex)
+        public async Task<SearchResponse> SearchSubmissionsNextAsync(SearchQuery query, int pageIndex)
         {
             var arg = KeyValueCollection.FromJson(query);
             arg.AddRange(new KeyValueCollection(3) {
-                ["sid"] = _sessionId,
+                ["sid"] = SessionId,
                 ["rid"] = query.RequestId,
                 ["page"] = pageIndex.ToStringInv(),
             });
             var search = await RequestAsync<SearchResponse>("search", arg);
             search.EnsureSuccess();
             return search;
+        }
+
+        public async Task<SubmissionsReponse> GetSubmissionsAsync(SubmissionsQuery query)
+        {
+            var arg = KeyValueCollection.FromJson(query);
+            arg.AddRange(new KeyValueCollection(1) {
+                ["sid"] = SessionId,
+            });
+            var submissions = await RequestAsync<SubmissionsReponse>("submissions", arg);
+            submissions.EnsureSuccess();
+            return submissions;
         }
 
         private async Task<T> RequestAsync<T>(string api, KeyValueCollection arguments)

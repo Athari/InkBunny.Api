@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api
 {
-    internal partial class SubmissionShortRaw
+    internal partial class SubmissionRaw
     {
 <#  foreach (var isPrimary in IsPrimaryKinds) { #>
 <#   foreach (var prop in PagePropKinds) { #>
@@ -20,7 +20,7 @@ namespace Alba.InkBunny.Api
 <#   foreach (var size in FileSizeKinds) { #>
 <#    foreach (var prop in FilePropKinds) { #>
         [JsonProperty("file_<#=isPrimary.Js#><#=prop.Js#>_<#=size.Js#>")]
-        public <#=prop.Type#> <#=isPrimary#>Page<#=size#>Thumbnail<#=prop#> { get; set; }
+        public <#=prop.Type#> <#=isPrimary#>Page<#=size#>File<#=prop#> { get; set; }
 
 <#    } #>
 <#   } #>
@@ -32,13 +32,13 @@ namespace Alba.InkBunny.Api
 <#      } else { #>
         [JsonProperty("<#=isPrimary.Js#>thumb_<#=size.Js#><#=isCustom.Js#>_<#=prop.Js#>")]
 <#      } #>
-        public <#=prop.Type#> <#=isPrimary#>Page<#=size#>Thumbnail<#=isCustom#><#=prop#> { get; set; }
+        public <#=prop.Type#> <#=isPrimary#>Page<#=size#><#=isCustom#>Thumbnail<#=prop#> { get; set; }
 
 <#     } #>
 <#    } #>
 <#   } #>
 <#  } #>
-        private void CopyToNormal(SubmissionShort other)
+        private void CopyToNormal(Submission other)
         {
 <#        foreach (var isPrimary in IsPrimaryKinds) { #>
             other.<#=isPrimary#>Page = new SubmissionPage {
@@ -48,56 +48,187 @@ namespace Alba.InkBunny.Api
 <#            foreach (var size in FileSizeKinds) { #>
                 <#=size#>File = new SubmissionFile {
 <#                foreach (var prop in FilePropKinds) { #>
-                    <#=prop#> = <#=isPrimary#>Page<#=size#>Thumbnail<#=prop#>,
+                    <#=prop#> = <#=isPrimary#>Page<#=size#>File<#=prop#>,
 <#                } #>
                 },
 <#            } #>
 <#            foreach (var size in ThumbnailSizeKinds) { #>
-                <#=size#>Thumbnail = new SubmissionThumbnail {
-<#               foreach (var isCustom in IsCustomKinds) { #>
+<#             foreach (var isCustom in IsCustomKinds) { #>
+                <#=size#><#=isCustom#>Thumbnail = new SubmissionThumbnail {
 <#                foreach (var prop in ThumbnailPropKinds) { #>
-                    <#=isCustom#><#=prop#> = <#=isPrimary#>Page<#=size#>Thumbnail<#=isCustom#><#=prop#>,
+                    <#=prop#> = <#=isPrimary#>Page<#=size#><#=isCustom#>Thumbnail<#=prop#>,
 <#                } #>
-<#               } #>
                 },
+<#             } #>
 <#            } #>
             };
 <#        } #>
         }
     }
 
-    public partial class SubmissionShort
+    public partial class Submission
     {
-        private void CopyToRaw(SubmissionShortRaw other)
+        private void CopyToRaw(SubmissionRaw other)
         {
-<#      foreach (var isPrimary in IsPrimaryKinds) { #>
-<#       foreach (var prop in PagePropKinds) { #>
-            other.<#=isPrimary#>Page<#=prop#> = <#=isPrimary#>Page.<#=prop#>;
+<#       foreach (var isPrimary in IsPrimaryKinds) { #>
+<#        foreach (var prop in PagePropKinds) { #>
+            other.<#=isPrimary#>Page<#=prop#> = <#=isPrimary#>Page?.<#=prop#> ?? default;
+<#        } #>
+<#        foreach (var size in FileSizeKinds) { #>
+<#         foreach (var prop in FilePropKinds) { #>
+            other.<#=isPrimary#>Page<#=size#>File<#=prop#> = <#=isPrimary#>Page?.<#=size#>File?.<#=prop#> ?? default;
+<#         } #>
+<#        } #>
+<#        foreach (var size in ThumbnailSizeKinds) { #>
+<#         foreach (var isCustom in IsCustomKinds) { #>
+<#          foreach (var prop in ThumbnailPropKinds) { #>
+            other.<#=isPrimary#>Page<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=isPrimary#>Page?.<#=size#><#=isCustom#>Thumbnail?.<#=prop#> ?? default;
+<#          } #>
+<#         } #>
+<#        } #>
 <#       } #>
+        }
+    }
+
+    internal partial class SubmissionPageRaw
+    {
+<#   foreach (var size in FileSizeKinds) { #>
+<#    foreach (var prop in FileExtendedPropKinds) { #>
+<#     if (prop.Type == "Uri") { #>
+        [JsonProperty("<#=prop.Js#>_<#=size.Js#>")]
+<#     } else { #>
+        [JsonProperty("<#=size.Js#>_<#=prop.Js#>")]
+<#     } #>
+        public <#=prop.Type#> <#=size#>File<#=prop#> { get; set; }
+
+<#    } #>
+<#   } #>
+<#   foreach (var size in ThumbnailSizeKinds) { #>
+<#    foreach (var isCustom in IsCustomKinds) { #>
+<#     foreach (var prop in ThumbnailPropKinds) { #>
+<#      if (prop.Type == "Uri") { #>
+        [JsonProperty("thumbnail_<#=prop.Js#>_<#=size.Js#><#=isCustom.Js#>")]
+<#      } else { #>
+        [JsonProperty("thumb_<#=size.Js#><#=isCustom.Js#>_<#=prop.Js#>")]
+<#      } #>
+        public <#=prop.Type#> <#=size#><#=isCustom#>Thumbnail<#=prop#> { get; set; }
+
+<#     } #>
+<#    } #>
+<#   } #>
+        private void CopyToNormal(SubmissionPage other)
+        {
+<#        foreach (var size in FileSizeKinds) { #>
+            other.<#=size#>File = new SubmissionFile {
+<#            foreach (var prop in FileExtendedPropKinds) { #>
+                <#=prop#> = <#=size#>File<#=prop#>,
+<#            } #>
+            };
+<#        } #>
+<#        foreach (var size in ThumbnailSizeKinds) { #>
+<#         foreach (var isCustom in IsCustomKinds) { #>
+            other.<#=size#><#=isCustom#>Thumbnail = new SubmissionThumbnail {
+<#            foreach (var prop in ThumbnailPropKinds) { #>
+                <#=prop#> = <#=size#><#=isCustom#>Thumbnail<#=prop#>,
+<#            } #>
+            };
+<#         } #>
+<#        } #>
+        }
+    }
+
+    public partial class SubmissionPage
+    {
+        private void CopyToRaw(SubmissionPageRaw other)
+        {
 <#       foreach (var size in FileSizeKinds) { #>
-<#        foreach (var prop in FilePropKinds) { #>
-            other.<#=isPrimary#>Page<#=size#>Thumbnail<#=prop#> = <#=isPrimary#>Page.<#=size#>File.<#=prop#>;
+<#        foreach (var prop in FileExtendedPropKinds) { #>
+            other.<#=size#>File<#=prop#> = <#=size#>File?.<#=prop#> ?? default;
 <#        } #>
 <#       } #>
 <#       foreach (var size in ThumbnailSizeKinds) { #>
 <#        foreach (var isCustom in IsCustomKinds) { #>
 <#         foreach (var prop in ThumbnailPropKinds) { #>
-            other.<#=isPrimary#>Page<#=size#>Thumbnail<#=isCustom#><#=prop#> = <#=isPrimary#>Page.<#=size#>Thumbnail.<#=isCustom#><#=prop#>;
+            other.<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=size#><#=isCustom#>Thumbnail?.<#=prop#> ?? default;
 <#         } #>
 <#        } #>
 <#       } #>
+        }
+    }
+
+    internal partial class SubmissionPoolRaw
+    {
+<#  foreach (var side in ThumbnailSideKinds) { #>
+<#   foreach (var prop in PoolSubmissionPropKinds) { #>
+        [JsonProperty("submission_<#=side.Js#>_<#=prop.Js#>")]
+        public <#=prop.Type#> <#=side#>Submission<#=prop#> { get; set; }
+
+<#   } #>
+<#   foreach (var size in ThumbnailSizeKinds) { #>
+<#    foreach (var isCustom in IsCustomKinds) { #>
+<#     foreach (var prop in ThumbnailPropKinds) { #>
+<#      if (prop.Type == "Uri") { #>
+        [JsonProperty("submission_<#=side.Js#>_thumbnail_<#=prop.Js#>_<#=size.Js#><#=isCustom.Js#>")]
+<#      } else { #>
+        [JsonProperty("submission_<#=side.Js#>_thumb_<#=size.Js#><#=isCustom.Js#>_<#=prop.Js#>")]
 <#      } #>
+        public <#=prop.Type#> <#=side#>Submission<#=size#><#=isCustom#>Thumbnail<#=prop#> { get; set; }
+
+<#     } #>
+<#    } #>
+<#   } #>
+<#  } #>
+        private void CopyToNormal(SubmissionPool other)
+        {
+<#        foreach (var side in ThumbnailSideKinds) { #>
+            other.<#=side#>Submission = new SubmissionPoolSubmission {
+<#            foreach (var prop in PoolSubmissionPropKinds) { #>
+                <#=prop#> = <#=side#>Submission<#=prop#>,
+<#            } #>
+<#            foreach (var size in ThumbnailSizeKinds) { #>
+<#             foreach (var isCustom in IsCustomKinds) { #>
+                <#=size#><#=isCustom#>Thumbnail = new SubmissionThumbnail {
+<#                foreach (var prop in ThumbnailPropKinds) { #>
+                    <#=prop#> = <#=side#>Submission<#=size#><#=isCustom#>Thumbnail<#=prop#>,
+<#                } #>
+                },
+<#             } #>
+<#            } #>
+            };
+<#        } #>
+        }
+    }
+
+    public partial class SubmissionPool
+    {
+        private void CopyToRaw(SubmissionPoolRaw other)
+        {
+<#       foreach (var side in ThumbnailSideKinds) { #>
+<#        foreach (var prop in PoolSubmissionPropKinds) { #>
+            other.<#=side#>Submission<#=prop#> = <#=side#>Submission?.<#=prop#> ?? default;
+<#        } #>
+<#        foreach (var size in ThumbnailSizeKinds) { #>
+<#         foreach (var isCustom in IsCustomKinds) { #>
+<#          foreach (var prop in ThumbnailPropKinds) { #>
+            other.<#=side#>Submission<#=size#><#=isCustom#>Thumbnail<#=prop#> = <#=side#>Submission?.<#=size#><#=isCustom#>Thumbnail?.<#=prop#> ?? default;
+<#          } #>
+<#         } #>
+<#        } #>
+<#       } #>
         }
     }
 }
 <#+
     readonly Kind[] IsCustomKinds = { Kind.Name("_noncustom", ""), Kind.Name("", "Custom") };
     readonly Kind[] IsPrimaryKinds = { Kind.Name("", "Primary"), Kind.Name("latest_", "Latest") };
+    readonly Kind[] ThumbnailSideKinds = { Kind.Name("left", "Previous"), Kind.Name("right", "Next") };
     readonly Kind[] ThumbnailSizeKinds = { Kind.Size("Medium"), Kind.Size("Large"), Kind.Size("Huge") };
     readonly Kind[] FileSizeKinds = { Kind.Size("Preview"), Kind.Size("Screen"), Kind.Size("Full") };
     readonly Kind[] PagePropKinds = { Kind.Prop("string", "file_name", "FileName"), Kind.Prop("string", "mimetype", "MimeType") };
     readonly Kind[] FilePropKinds = { Kind.Prop("Uri", "url", "Uri") };
-    readonly Kind[] ThumbnailPropKinds = { Kind.Prop("Uri", "url", "Uri"), Kind.Prop("int", "x", "Width"), Kind.Prop("int", "y", "Height") };
+    readonly Kind[] FileExtendedPropKinds = { Kind.Prop("Uri", "file_url", "Uri"), Kind.Prop("int", "size_x", "Width"), Kind.Prop("int", "size_y", "Height") };
+    readonly Kind[] ThumbnailPropKinds = { Kind.Prop("Uri", "url", "Uri"), Kind.Prop("int?", "x", "Width"), Kind.Prop("int?", "y", "Height") };
+    readonly Kind[] PoolSubmissionPropKinds = { Kind.Prop("int", "submission_id", "Id"), Kind.Prop("string", "file_name", "FileName") };
 
     struct Kind
     {

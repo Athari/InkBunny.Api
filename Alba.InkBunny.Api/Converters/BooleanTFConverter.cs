@@ -14,7 +14,14 @@ namespace Alba.InkBunny.Api.Converters
         {
             switch (reader.TokenType) {
                 case JsonToken.String:
-                    return reader.Value.ToString() == "t";
+                    switch (reader.Value.ToString()) {
+                        case "t":
+                            return true;
+                        case "f":
+                            return false;
+                        default:
+                            throw new ArgumentException();
+                    }
                 default:
                     throw new ArgumentOutOfRangeException();
             }

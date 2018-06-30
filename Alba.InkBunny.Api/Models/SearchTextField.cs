@@ -1,8 +1,10 @@
 ﻿using System;
+using JetBrains.Annotations;
 
 namespace Alba.InkBunny.Api
 {
     [Flags]
+    [PublicAPI]
     public enum SearchTextField
     {
         None = 0,

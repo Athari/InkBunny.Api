@@ -7,14 +7,21 @@ namespace Alba.InkBunny.Api.Converters
     {
         public override void WriteJson(JsonWriter writer, bool value, JsonSerializer serializer)
         {
-            writer.WriteValue(value ? "t" : "f");
+            writer.WriteValue(value ? "yes" : "no");
         }
 
         public override bool ReadJson(JsonReader reader, Type objectType, bool existingValue, bool hasExistingValue, JsonSerializer serializer)
         {
             switch (reader.TokenType) {
                 case JsonToken.String:
-                    return reader.Value.ToString() == "t";
+                    switch (reader.Value.ToString()) {
+                        case "yes":
+                            return true;
+                        case "no":
+                            return false;
+                        default:
+                            throw new ArgumentException();
+                    }
                 default:
                     throw new ArgumentOutOfRangeException();
             }

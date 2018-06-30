@@ -1,5 +1,8 @@
-﻿namespace Alba.InkBunny.Api
+﻿using JetBrains.Annotations;
+
+namespace Alba.InkBunny.Api
 {
+    [PublicAPI]
     public enum RatingLevel
     {
         General = 0,

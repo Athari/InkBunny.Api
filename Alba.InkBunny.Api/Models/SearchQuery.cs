@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api
 {
-    public class SearchQuery
+    public sealed class SearchQuery
     {
         [JsonProperty("rid")]
         [EditorBrowsable(EditorBrowsableState.Never)]
@@ -72,7 +72,7 @@ namespace Alba.InkBunny.Api
         public int CountLimit { get; set; } = 50_000;
 
         [JsonProperty("dayslimit")]
-        public int LastDaysLimit { get; set; }
+        public int? LastDaysLimit { get; set; }
 
         [JsonProperty("unread_submissions")]
         public bool UnreadSubmissions { get; set; }

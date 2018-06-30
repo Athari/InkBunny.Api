@@ -6,6 +6,9 @@ namespace Alba.InkBunny.Api
 {
     public class BaseResponse
     {
+        private protected BaseResponse()
+        { }
+
         [JsonProperty("sid"), EditorBrowsable(EditorBrowsableState.Never)]
         public string SessionId { get; set; }
 

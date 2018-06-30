@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Alba.InkBunny.Api.Converters
 {
-    public class RatingJsonConverter : JsonConverter<Rating>
+    internal class RatingJsonConverter : JsonConverter<Rating>
     {
         public override void WriteJson(JsonWriter writer, Rating value, JsonSerializer serializer)
         {
